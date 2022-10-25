@@ -9,15 +9,10 @@ const app = express();
 const port = 8080;
 
 // static
-app.use(express.static('public'));
+app.use(express.static('public', { index: './documentation.html' }));
 
 // logging
 app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'}) }));
-
-// error logging
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-});
 
 // requests
 app.get('/', (req, res) => {
@@ -26,6 +21,12 @@ app.get('/', (req, res) => {
 
 app.get('/movies', (req, res) => {
   res.json(movies);
+});
+
+// error logging
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(400).send(err.message);
 });
 
 app.listen(port, () => {
