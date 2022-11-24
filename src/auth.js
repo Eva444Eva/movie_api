@@ -7,7 +7,7 @@ const jwtSecret = 'your_jwt_secret';
 
 function generateJWTToken(user) {
   return jsonwebtoken.sign(user, jwtSecret, {
-    subject: user.name,
+    subject: user.email,
     expiresIn: '7d',
     algorithm: 'HS256'
   });

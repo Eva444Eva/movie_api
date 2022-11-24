@@ -6,11 +6,11 @@ import { User } from '../models/user.js';
 export function setPassportConfig(passport) {
   passport.use(new LocalStrategy(
     {
-      usernameField: 'name',
+      usernameField: 'e-mail',
       passwordField: 'password'
     },
-    function verify(username, password, callback) {
-      User.findOne({ name: username, password })
+    function verify(email, password, callback) {
+      User.findOne({ email: email, password })
       .then(user => {
         if (!user) {
           return callback(null, false, {message: 'Incorrect username or password.'});
