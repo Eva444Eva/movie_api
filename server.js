@@ -271,3 +271,5 @@ function log(msg, severity) {
     }
   }
 }
+
+export default app;
