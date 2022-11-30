@@ -1,8 +1,7 @@
-const express = require('express');
+const { json: jsonParser } = require('express');
 const jsonwebtoken = require ('jsonwebtoken');
 const passport = require('passport');
 
-const jsonParser = express.json();
 const jwtSecret = 'your_jwt_secret';
 
 function generateJWTToken(user) {

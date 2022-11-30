@@ -12,4 +12,11 @@ const userSchema = new Schema({
   favoriteMovies: [{ type: mongoose.ObjectId, ref: Movie }]
 });
 
+userSchema.statics.hashPassword = function(pw) {
+  return bcrypt.hashSync(pw, 10);
+};
+userSchema.methods.validatePassword = function(pw) {
+  return bcrypt.compareSync(pw, this.password);
+};
+
 module.exports = model('User', userSchema);
