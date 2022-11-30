@@ -1,5 +1,8 @@
-import mongoose, { model, Schema } from 'mongoose';
-import { Movie } from './movie.js';
+const mongoose = require('mongoose');
+const model = mongoose.model;
+const Schema = mongoose.Schema;
+
+const Movie = require('./movie.js')
 
 const userSchema = new Schema({
   name: { type: String, required: true },
@@ -9,4 +12,4 @@ const userSchema = new Schema({
   favoriteMovies: [{ type: mongoose.ObjectId, ref: Movie }]
 });
 
-export const User = model('User', userSchema);
+module.exports = model('User', userSchema);

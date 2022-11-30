@@ -1,16 +1,15 @@
-import express from 'express';
-import fs from 'fs';
-import mongoose from 'mongoose';
-import morgan from 'morgan';
-import passport from 'passport';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const express = require('express');
+const fs = require('fs');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const passport = require('passport');
+const path = require('path');
 
-import { Movie } from './models/movie.js';
-import { User } from './models/user.js';
+const Movie = require('./models/movie.js');
+const User = require('./models/user.js');
 
-import { setPassportConfig } from './src/passport.js';
-import { setAuthRoutes } from './src/auth.js';
+const setPassportConfig = require('./src/passport.js');
+const setAuthRoutes = require('./src/auth.js');
 
 const DEBUG = true;
 
@@ -19,7 +18,6 @@ const port = 8080;
 
 setPassportConfig(passport)
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const jsonParser = express.json();
 
 mongoose.connect('mongodb://localhost:27017/movie_db', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -271,3 +269,5 @@ function log(msg, severity) {
     }
   }
 }
+
+module.exports = app;
