@@ -1,4 +1,6 @@
-import { model, Schema } from 'mongoose';
+const mongoose = require('mongoose');
+const model = mongoose.model;
+const Schema = mongoose.Schema;
 
 const movieSchema = new Schema({
   title: { type: String, required: true },
@@ -17,4 +19,4 @@ const movieSchema = new Schema({
   featured: Boolean
 });
 
-export const Movie = model('Movie', movieSchema);
+module.exports = model('Movie', movieSchema);

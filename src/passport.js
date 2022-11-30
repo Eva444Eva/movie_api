@@ -1,9 +1,13 @@
-import { ExtractJwt, Strategy as JWTStrategy } from 'passport-jwt';
-import { Strategy as LocalStrategy } from 'passport-local';
+const passportJWT = require('passport-jwt');
+const ExtractJwt = passportJWT.ExtractJwt;
+const JWTStrategy = passportJWT.Strategy;
 
-import { User } from '../models/user.js';
+const passportLocal = require('passport-local');
+const LocalStrategy = passportLocal.Strategy;
 
-export function setPassportConfig(passport) {
+const User = require('../models/user.js');
+
+module.exports = function setPassportConfig(passport) {
   passport.use(new LocalStrategy(
     {
       usernameField: 'e-mail',

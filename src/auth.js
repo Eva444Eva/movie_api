@@ -1,6 +1,6 @@
-import express from 'express';
-import jsonwebtoken from 'jsonwebtoken';
-import passport from 'passport';
+const express = require('express');
+const jsonwebtoken = require ('jsonwebtoken');
+const passport = require('passport');
 
 const jsonParser = express.json();
 const jwtSecret = 'your_jwt_secret';
@@ -13,7 +13,7 @@ function generateJWTToken(user) {
   });
 }
 
-export function setAuthRoutes(router) {
+module.exports = function setAuthRoutes(router) {
   router.post('/login', jsonParser, (req, res) => {
     passport.authenticate('local', { session: false }, (error, user) => {
       if (error || !user) {
