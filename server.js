@@ -20,10 +20,10 @@ setPassportConfig(passport)
 
 const jsonParser = express.json();
 
-// mongoose.connect('mongodb://localhost:27017/movie_db', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.mongoURL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // set auth routes
-// setAuthRoutes(app);
+setAuthRoutes(app);
 
 // static
 app.use(express.static(path.join(__dirname, 'public'), { index: './documentation.html' }));
