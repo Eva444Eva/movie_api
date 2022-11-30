@@ -20,17 +20,23 @@ setPassportConfig(passport)
 
 const jsonParser = express.json();
 
-mongoose.connect('mongodb://localhost:27017/movie_db', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://localhost:27017/movie_db', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // set auth routes
-setAuthRoutes(app);
+// setAuthRoutes(app);
 
 // static
-app.use(express.static('public', { index: './documentation.html' }));
+app.use(express.static(path.join(__dirname, 'public'), { index: './documentation.html' }));
 
 // middleware: logging
-app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'}) }));
+// app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'}) }));
 
+// hello
+app.get('/hello', (req, res) => {
+  res.status(200).send('API seems to be working');
+});
+
+/*
 // GET all movies
 app.get(
   '/movies',
@@ -268,6 +274,6 @@ function log(msg, severity) {
         break;
     }
   }
-}
+}*/
 
 module.exports = app;
