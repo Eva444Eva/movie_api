@@ -1,8 +1,10 @@
-const { json: jsonParser } = require('express');
+const express = require('express');
 const jsonwebtoken = require ('jsonwebtoken');
 const passport = require('passport');
 
 const jwtSecret = 'your_jwt_secret';
+
+const jsonParser = express.json();
 
 function generateJWTToken(user) {
   return jsonwebtoken.sign(user, jwtSecret, {
@@ -18,7 +20,7 @@ module.exports = function setAuthRoutes(router) {
       if (error || !user) {
         return res.status(400).json({
           message: 'login failed',
-          user: user
+          error: error
         });
       } else {
         req.login(user, { session: false }, (error) => {

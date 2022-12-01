@@ -1,10 +1,10 @@
 const cors = require('cors');
 const express = require('express');
-const { body, validationResult } = require('express-validator');
+const expressValidator = require('express-validator');
+const body = expressValidator.body;
 const mongoose = require('mongoose');
 const passport = require('passport');
 const path = require('path');
-const process = require('node:process');
 
 const Movie = require('./models/movie.js');
 const User = require('./models/user.js');
@@ -18,18 +18,30 @@ const DEV = false;
 const VERBOSE = true;
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port =  process.env.PORT || 8080;
 
-setPassportConfig(passport)
+setPassportConfig(passport);
 
 const jsonParser = express.json();
 
+let mongoAtlasUri;
+
 if (DEV) {
-  mongoose.connect('mongodb://localhost:27017/movie_db', { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoAtlasUri = 'mongodb://localhost:27017/movie_db';
 } else {
-  mongoose.connect(process.env.mongoURL, { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoAtlasUri = process.env.mongoURL;
 }
 
+try {
+  // Connect to the MongoDB cluster
+  mongoose.connect(
+    mongoAtlasUri,
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    () => console.log('Mongoose is connected')
+  );
+} catch (e) {
+  log('could not connect', 'error');
+}
 
 // set cors
 app.use(
@@ -177,7 +189,7 @@ app.post(
     body('name', 'username is required').not().isEmpty()
   ],
   (req, res) => {
-    const errors = validationResult(req);
+    const errors = expressValidator.validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -226,7 +238,7 @@ app.put(
       .isLength({ min: 1 })
   ],
   (req, res) => {
-    const errors = validationResult(req);
+    const errors = expressValidator.validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -336,5 +348,3 @@ function log(msg, severity) {
     }
   }
 }
-
-module.exports = app;

@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const model = mongoose.model;
-const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt');
 
 const Movie = require('./movie.js')
 
-const userSchema = new Schema({
+const userSchema = mongoose.Schema({
   name: { type: String, required: true },
   password: { type: String, required: true },
   email: { type: String, required: true },
@@ -19,4 +18,4 @@ userSchema.methods.validatePassword = function(pw) {
   return bcrypt.compareSync(pw, this.password);
 };
 
-module.exports = model('User', userSchema);
+module.exports = mongoose.model('User', userSchema);
